@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/currency.dart';
-
 class CurrencySelectorWidget extends StatelessWidget {
   final String label;
   final String selectedCurrency;
   final List<Currency> currencies;
   final Function(Currency) onCurrencySelected;
-
   const CurrencySelectorWidget({
     super.key,
     required this.label,
@@ -14,7 +12,6 @@ class CurrencySelectorWidget extends StatelessWidget {
     required this.currencies,
     required this.onCurrencySelected,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(

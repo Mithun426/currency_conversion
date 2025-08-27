@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -9,7 +8,6 @@ class CustomTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
-
   const CustomTextField({
     super.key,
     required this.controller,
@@ -21,7 +19,6 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(

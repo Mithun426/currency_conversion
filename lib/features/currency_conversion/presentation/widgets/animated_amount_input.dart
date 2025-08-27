@@ -3,23 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_picker/currency_picker.dart';
-
 class AnimatedAmountInput extends StatefulWidget {
   final TextEditingController controller;
   final Function(String)? onChanged;
   final String? currency;
-
   const AnimatedAmountInput({
     super.key,
     required this.controller,
     this.onChanged,
     this.currency,
   });
-
   @override
   State<AnimatedAmountInput> createState() => _AnimatedAmountInputState();
 }
-
 class _AnimatedAmountInputState extends State<AnimatedAmountInput>
     with TickerProviderStateMixin {
   late AnimationController _bounceController;
@@ -27,59 +23,48 @@ class _AnimatedAmountInputState extends State<AnimatedAmountInput>
   late Animation<double> _bounceAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<Color?> _borderColorAnimation;
-
   bool _isValid = true;
   bool _isFocused = false;
   final FocusNode _focusNode = FocusNode();
-
   @override
   void initState() {
     super.initState();
-    
     _bounceController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    
     _focusController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-
     _bounceAnimation = Tween<double>(begin: 0, end: 10).animate(
       CurvedAnimation(
         parent: _bounceController,
         curve: Curves.elasticOut,
       ),
     );
-
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(
       CurvedAnimation(
         parent: _focusController,
         curve: Curves.easeInOut,
       ),
     );
-
     _borderColorAnimation = ColorTween(
       begin: Colors.grey[300],
       end: Colors.blue[600],
     ).animate(_focusController);
-
     _focusNode.addListener(() {
       setState(() {
         _isFocused = _focusNode.hasFocus;
       });
-      
       if (_isFocused) {
         _focusController.forward();
       } else {
         _focusController.reverse();
       }
     });
-
     widget.controller.addListener(_validateInput);
   }
-
   @override
   void dispose() {
     _bounceController.dispose();
@@ -88,53 +73,42 @@ class _AnimatedAmountInputState extends State<AnimatedAmountInput>
     widget.controller.removeListener(_validateInput);
     super.dispose();
   }
-
   void _validateInput() {
     final text = widget.controller.text;
     final isValid = text.isEmpty || double.tryParse(text.replaceAll(',', '')) != null;
-    
     if (!isValid && _isValid) {
       _bounceController.forward().then((_) {
         _bounceController.reverse();
       });
     }
-    
     setState(() {
       _isValid = isValid;
     });
   }
-
   void _formatInput() {
     final text = widget.controller.text.replaceAll(',', '');
     final value = double.tryParse(text);
-    
     if (value != null && text.isNotEmpty) {
       final formatter = NumberFormat('#,##0.##');
       final formatted = formatter.format(value);
-      
       widget.controller.value = TextEditingValue(
         text: formatted,
         selection: TextSelection.collapsed(offset: formatted.length),
       );
     }
-    
     if (widget.onChanged != null) {
       widget.onChanged!(widget.controller.text);
     }
   }
-
   String get _getCurrencySymbol {
-    if (widget.currency == null) return '\$'; // Default to dollar
-    
+    if (widget.currency == null) return '\$'; 
     try {
       final currency = CurrencyService().findByCode(widget.currency!);
       return currency?.symbol ?? widget.currency!;
     } catch (e) {
-      // Fallback to currency code if not found
       return widget.currency!;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(

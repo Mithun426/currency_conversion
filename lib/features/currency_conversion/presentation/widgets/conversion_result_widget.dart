@@ -5,43 +5,34 @@ import 'package:country_flags/country_flags.dart';
 import '../../domain/entities/conversion_result.dart';
 import '../../data/models/currency_model.dart';
 import '../pages/trend_screen.dart';
-
 class ConversionResultWidget extends StatefulWidget {
   final ConversionResult? result;
   final List<CurrencyModel> currencies;
-
   const ConversionResultWidget({
     super.key,
     this.result,
     required this.currencies,
   });
-
   @override
   State<ConversionResultWidget> createState() => _ConversionResultWidgetState();
 }
-
 class _ConversionResultWidgetState extends State<ConversionResultWidget>
     with TickerProviderStateMixin {
   late AnimationController _countUpController;
   late Animation<double> _countUpAnimation;
-  
   double _displayAmount = 0;
   bool _isVisible = false;
-
   @override
   void initState() {
     super.initState();
-    
     _countUpController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-
     _countUpAnimation = CurvedAnimation(
       parent: _countUpController,
       curve: Curves.easeOutCubic,
     );
-
     _countUpAnimation.addListener(() {
       if (widget.result != null) {
         setState(() {
@@ -49,8 +40,6 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
         });
       }
     });
-
-    // Start animation if result is already available
     if (widget.result != null) {
       _isVisible = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -58,17 +47,14 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
       });
     }
   }
-
   @override
   void dispose() {
     _countUpController.dispose();
     super.dispose();
   }
-
   @override
   void didUpdateWidget(ConversionResultWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
     if (widget.result != oldWidget.result) {
       if (widget.result != null) {
         setState(() {
@@ -83,28 +69,22 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
       }
     }
   }
-
   CurrencyModel _getCurrency(String code) {
     return widget.currencies.firstWhere(
       (currency) => currency.code == code,
       orElse: () => CurrencyModel(code: code, name: code, symbol: code),
     );
   }
-
-
-
   @override
   Widget build(BuildContext context) {
     if (!_isVisible || widget.result == null) {
       return const SizedBox.shrink();
     }
-
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
     final formatter = NumberFormat('#,##0.##');
     final fromCurrency = _getCurrency(widget.result!.fromCurrency);
     final toCurrency = _getCurrency(widget.result!.toCurrency);
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
       child: Card(
@@ -137,7 +117,6 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              // Header
               Row(
                 children: [
                   Icon(
@@ -174,10 +153,7 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
                   ),
                 ],
               ),
-
               const SizedBox(height: 24),
-
-              // From Currency
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -236,10 +212,7 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              // To Currency with Count-up Animation
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -308,10 +281,7 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Exchange Rate
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -340,8 +310,6 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
                   ],
                 ),
               ),
-
-              // Trend Button
               const SizedBox(height: 16),
               OutlinedButton.icon(
                 onPressed: () {

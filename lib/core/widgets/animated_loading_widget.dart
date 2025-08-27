@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 enum LoadingStyle {
   pulsing,
   rotating,
@@ -8,13 +7,11 @@ enum LoadingStyle {
   ripple,
   threeDots,
 }
-
 class AnimatedLoadingWidget extends StatelessWidget {
   final String? message;
   final LoadingStyle style;
   final Color? color;
   final double size;
-
   const AnimatedLoadingWidget({
     super.key,
     this.message,
@@ -22,11 +19,9 @@ class AnimatedLoadingWidget extends StatelessWidget {
     this.color,
     this.size = 60,
   });
-
   @override
   Widget build(BuildContext context) {
     final effectiveColor = color ?? Theme.of(context).primaryColor;
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -50,7 +45,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildLoadingAnimation(Color color) {
     switch (style) {
       case LoadingStyle.pulsing:
@@ -65,7 +59,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
         return _buildThreeDotsAnimation(color);
     }
   }
-
   Widget _buildPulsingAnimation(Color color) {
     return Container(
       width: size,
@@ -100,14 +93,12 @@ class AnimatedLoadingWidget extends StatelessWidget {
         curve: Curves.easeInOut,
       );
   }
-
   Widget _buildRotatingAnimation(Color color) {
     return Container(
       width: size,
       height: size,
       child: Stack(
         children: [
-          // Outer ring
           Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -117,7 +108,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
               ),
             ),
           ),
-          // Inner rotating ring
           Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -135,7 +125,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
             ),
           ).animate(onPlay: (controller) => controller.repeat())
             .rotate(duration: 2000.ms),
-          // Center icon
           Center(
             child: Icon(
               Icons.currency_exchange,
@@ -147,7 +136,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildBouncingAnimation(Color color) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -178,7 +166,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
       }),
     );
   }
-
   Widget _buildRippleAnimation(Color color) {
     return Container(
       width: size,
@@ -212,7 +199,6 @@ class AnimatedLoadingWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildThreeDotsAnimation(Color color) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

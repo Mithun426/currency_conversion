@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/currency.dart';
@@ -10,18 +9,15 @@ import '../../domain/repositories/currency_repository.dart';
 import '../datasources/currency_remote_data_source.dart';
 import '../datasources/currency_local_data_source.dart';
 import '../models/conversion_result_model.dart';
-
 class CurrencyRepositoryImpl implements CurrencyRepository {
   final CurrencyRemoteDataSource remoteDataSource;
   final CurrencyLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
-
   CurrencyRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
     required this.networkInfo,
   });
-
   @override
   Future<Either<Failure, List<Currency>>> getAllCurrencies() async {
     if (await networkInfo.isConnected) {
@@ -37,7 +33,6 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
       return const Left(NetworkFailure(message: 'No internet connection'));
     }
   }
-
   @override
   Future<Either<Failure, ExchangeRate>> getExchangeRate({
     required String from,
@@ -59,7 +54,6 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
       return const Left(NetworkFailure(message: 'No internet connection'));
     }
   }
-
   @override
   Future<Either<Failure, ConversionResult>> convertCurrency({
     required double amount,
@@ -73,9 +67,6 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
           from: from,
           to: to,
         );
-        
-
-        
         return Right(conversionResult);
       } on DioException catch (e) {
         return Left(ServerFailure(message: _getErrorMessage(e)));
@@ -86,9 +77,6 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
       return const Left(NetworkFailure(message: 'No internet connection'));
     }
   }
-
-
-
   String _getErrorMessage(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 class CurrencyInputWidget extends StatelessWidget {
   final TextEditingController controller;
   final Function(String)? onChanged;
-
   const CurrencyInputWidget({
     super.key,
     required this.controller,
     this.onChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return TextField(

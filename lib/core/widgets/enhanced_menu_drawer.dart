@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../theme/theme_bloc.dart';
-
 class EnhancedMenuDrawer extends StatefulWidget {
   final VoidCallback onLogout;
-
   const EnhancedMenuDrawer({
     super.key,
     required this.onLogout,
   });
-
   @override
   State<EnhancedMenuDrawer> createState() => _EnhancedMenuDrawerState();
 }
-
 class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
     with TickerProviderStateMixin {
   late AnimationController _slideController;
   late AnimationController _pulseController;
   late Animation<double> _slideAnimation;
   late Animation<double> _pulseAnimation;
-
   @override
   void initState() {
     super.initState();
@@ -33,7 +28,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-    
     _slideAnimation = Tween<double>(
       begin: -1.0,
       end: 0.0,
@@ -41,7 +35,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       parent: _slideController,
       curve: Curves.easeOutCubic,
     ));
-
     _pulseAnimation = Tween<double>(
       begin: 0.8,
       end: 1.2,
@@ -49,27 +42,22 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       parent: _pulseController,
       curve: Curves.easeInOut,
     ));
-
-    // Start animations when drawer opens
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _slideController.forward();
       _pulseController.repeat(reverse: true);
     });
   }
-
   @override
   void dispose() {
     _slideController.dispose();
     _pulseController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         final isDarkMode = state is ThemeLoaded ? state.isDarkMode : false;
-        
         return Drawer(
           width: MediaQuery.of(context).size.width * 0.85,
           child: Container(
@@ -99,12 +87,10 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
             child: SafeArea(
               child: Column(
                 children: [
-                  // Enhanced Header Section
                   Container(
                     padding: const EdgeInsets.all(32),
                     child: Column(
                       children: [
-                        // Animated Logo with glow effect
                         AnimatedBuilder(
                           animation: _pulseAnimation,
                           builder: (context, child) {
@@ -148,10 +134,7 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                         ).animate()
                             .fadeIn(duration: const Duration(milliseconds: 800))
                             .scale(duration: const Duration(milliseconds: 800)),
-                        
                         const SizedBox(height: 24),
-                        
-                        // App Title with shimmer effect
                         ShaderMask(
                           shaderCallback: (bounds) => LinearGradient(
                             colors: isDarkMode
@@ -177,10 +160,7 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                         ).animate()
                             .fadeIn(duration: const Duration(milliseconds: 1000), delay: const Duration(milliseconds: 300))
                             .slideY(begin: 0.5, duration: const Duration(milliseconds: 1000)),
-                        
                         const SizedBox(height: 8),
-                        
-                        // Subtitle with typing effect
                         Text(
                           'Beautiful • Fast • Reliable',
                           style: TextStyle(
@@ -196,8 +176,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                       ],
                     ),
                   ),
-                  
-                  // Content Area with glassmorphism effect
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
@@ -220,7 +198,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
                         child: Column(
                           children: [
-                            // Enhanced Theme Toggle
                             AnimatedBuilder(
                               animation: _slideAnimation,
                               child: _buildEnhancedThemeToggle(isDarkMode),
@@ -231,10 +208,7 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                                 );
                               },
                             ),
-                            
                             const SizedBox(height: 32),
-                            
-                            // Glowing Divider
                             Container(
                               height: 1,
                               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -256,15 +230,9 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                             ).animate()
                                 .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 1000))
                                 .scaleX(duration: const Duration(milliseconds: 800)),
-                            
                             const SizedBox(height: 32),
-                            
-                            // Menu Items with enhanced animations
                             ..._buildMenuItems(isDarkMode),
-                            
                             const Spacer(),
-                            
-                            // Enhanced Logout
                             AnimatedBuilder(
                               animation: _slideAnimation,
                               child: _buildEnhancedLogoutButton(isDarkMode),
@@ -275,7 +243,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
                                 );
                               },
                             ),
-                            
                             const SizedBox(height: 20),
                           ],
                         ),
@@ -290,7 +257,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       },
     );
   }
-
   Widget _buildEnhancedThemeToggle(bool isDarkMode) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -322,7 +288,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       ),
       child: Row(
         children: [
-          // Animated Icon Container
           Container(
             width: 50,
             height: 50,
@@ -358,10 +323,7 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
             ),
           ).animate(onPlay: (controller) => controller.repeat())
               .shimmer(duration: const Duration(milliseconds: 2000), color: Colors.white.withOpacity(0.5)),
-          
           const SizedBox(width: 20),
-          
-          // Theme Info
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,8 +349,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
               ],
             ),
           ),
-          
-          // Enhanced Switch
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -416,7 +376,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
         .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 800))
         .slideX(begin: 0.5, duration: const Duration(milliseconds: 800));
   }
-
   List<Widget> _buildMenuItems(bool isDarkMode) {
     final items = [
       {
@@ -438,11 +397,9 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
         'onTap': () => Navigator.pop(context),
       },
     ];
-
     return items.asMap().entries.map((entry) {
       final index = entry.key;
       final item = entry.value;
-      
       return AnimatedBuilder(
         animation: _slideAnimation,
         child: _buildEnhancedMenuItem(
@@ -469,7 +426,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
           );
     }).toList();
   }
-
   Widget _buildEnhancedMenuItem({
     required IconData icon,
     required String title,
@@ -558,7 +514,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       ),
     );
   }
-
   Widget _buildEnhancedLogoutButton(bool isDarkMode) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -611,7 +566,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
         .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 1600))
         .slideY(begin: 0.5, duration: const Duration(milliseconds: 800));
   }
-
   void _showLogoutDialog() {
     showDialog(
       context: context,
@@ -639,7 +593,7 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop(); // Close drawer
+                Navigator.of(context).pop(); 
                 widget.onLogout();
               },
               style: ElevatedButton.styleFrom(
@@ -658,9 +612,8 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
       },
     );
   }
-
   void _showAboutDialog() {
-    Navigator.pop(context); // Close drawer first
+    Navigator.pop(context); 
     showAboutDialog(
       context: context,
       applicationName: 'Currency Converter',

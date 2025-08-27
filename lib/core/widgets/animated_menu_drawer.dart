@@ -2,24 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import '../theme/theme_provider.dart';
-
 class AnimatedMenuDrawer extends StatefulWidget {
   final VoidCallback onLogout;
-
   const AnimatedMenuDrawer({
     super.key,
     required this.onLogout,
   });
-
   @override
   State<AnimatedMenuDrawer> createState() => _AnimatedMenuDrawerState();
 }
-
 class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
     with TickerProviderStateMixin {
   late AnimationController _slideController;
   late Animation<double> _slideAnimation;
-
   @override
   void initState() {
     super.initState();
@@ -34,24 +29,19 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
       parent: _slideController,
       curve: Curves.easeOutCubic,
     ));
-
-    // Start animation when drawer opens
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _slideController.forward();
     });
   }
-
   @override
   void dispose() {
     _slideController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
@@ -76,12 +66,10 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
         child: SafeArea(
           child: Column(
             children: [
-              // Header Section
               Container(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    // App Logo/Icon
                     Container(
                       width: 80,
                       height: 80,
@@ -101,10 +89,7 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                     ).animate()
                         .fadeIn(duration: const Duration(milliseconds: 600))
                         .scale(duration: const Duration(milliseconds: 600)),
-                    
                     const SizedBox(height: 16),
-                    
-                    // App Title
                     Text(
                       'Currency Converter',
                       style: TextStyle(
@@ -115,10 +100,7 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                     ).animate()
                         .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 200))
                         .slideY(begin: 0.3, duration: const Duration(milliseconds: 800)),
-                    
                     const SizedBox(height: 8),
-                    
-                    // Version or subtitle
                     Text(
                       'v1.0.0',
                       style: TextStyle(
@@ -131,10 +113,7 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                   ],
                 ),
               ),
-              
               const SizedBox(height: 20),
-              
-              // Menu Items
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -148,7 +127,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: [
-                        // Theme Toggle
                         AnimatedBuilder(
                           animation: _slideAnimation,
                           child: _buildThemeToggle(themeProvider),
@@ -159,20 +137,14 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                             );
                           },
                         ),
-                        
                         const SizedBox(height: 16),
-                        
-                        // Divider
                         Divider(
                           color: theme.dividerColor.withOpacity(0.3),
                           indent: 20,
                           endIndent: 20,
                         ).animate()
                             .fadeIn(duration: const Duration(milliseconds: 600), delay: const Duration(milliseconds: 800)),
-                        
                         const SizedBox(height: 16),
-                        
-                        // About Item
                         AnimatedBuilder(
                           animation: _slideAnimation,
                           child: _buildMenuItem(
@@ -190,10 +162,7 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                             );
                           },
                         ),
-                        
                         const SizedBox(height: 12),
-                        
-                        // Help Item
                         AnimatedBuilder(
                           animation: _slideAnimation,
                           child: _buildMenuItem(
@@ -201,7 +170,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                             title: 'Help & Support',
                             onTap: () {
                               Navigator.pop(context);
-                              // Add help functionality
                             },
                           ),
                           builder: (context, child) {
@@ -211,10 +179,7 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                             );
                           },
                         ),
-                        
                         const Spacer(),
-                        
-                        // Logout Item
                         AnimatedBuilder(
                           animation: _slideAnimation,
                           child: _buildMenuItem(
@@ -233,7 +198,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
                             );
                           },
                         ),
-                        
                         const SizedBox(height: 20),
                       ],
                     ),
@@ -246,7 +210,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
       ),
     );
   }
-
   Widget _buildThemeToggle(ThemeProvider themeProvider) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -320,7 +283,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
         .fadeIn(duration: const Duration(milliseconds: 600), delay: const Duration(milliseconds: 600))
         .slideX(begin: 0.3, duration: const Duration(milliseconds: 600));
   }
-
   Widget _buildMenuItem({
     required IconData icon,
     required String title,
@@ -330,7 +292,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
     final color = isDestructive 
         ? Colors.red[600] 
         : Theme.of(context).textTheme.bodyLarge?.color;
-    
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Material(
@@ -371,7 +332,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
         .fadeIn(duration: const Duration(milliseconds: 600), delay: const Duration(milliseconds: 1000))
         .slideX(begin: 0.3, duration: const Duration(milliseconds: 600));
   }
-
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -399,7 +359,6 @@ class _AnimatedMenuDrawerState extends State<AnimatedMenuDrawer>
       },
     );
   }
-
   void _showAboutDialog(BuildContext context) {
     showAboutDialog(
       context: context,

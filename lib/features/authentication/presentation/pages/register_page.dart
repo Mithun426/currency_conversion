@@ -7,14 +7,11 @@ import '../bloc/auth_state.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/shake_widget.dart';
 import '../../../currency_conversion/presentation/pages/currency_conversion_page.dart';
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
-
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
-
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -22,11 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _shakeKey = GlobalKey<ShakeWidgetState>();
-  
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   bool _isLoading = false;
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -35,7 +30,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
-
   void _register() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -49,7 +43,6 @@ class _RegisterPageState extends State<RegisterPage> {
       _shakeKey.currentState?.shake();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +59,6 @@ class _RegisterPageState extends State<RegisterPage> {
           } else {
             setState(() => _isLoading = false);
           }
-
           if (state is AuthError) {
             _shakeKey.currentState?.shake();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -81,9 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             );
           }
-
           if (state is AuthAuthenticated) {
-            // Navigate to main app
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => const CurrencyConversionPage(),
@@ -110,7 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Logo and welcome text
                           Column(
                             children: [
                               Container(
@@ -129,9 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   .animate()
                                   .scale(duration: 600.ms, curve: Curves.elasticOut)
                                   .fadeIn(duration: 400.ms),
-                              
                               const SizedBox(height: 24),
-                              
                               const Text(
                                 'Create Account',
                                 style: TextStyle(
@@ -143,9 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   .animate(delay: 200.ms)
                                   .slideY(begin: 0.3, duration: 500.ms)
                                   .fadeIn(duration: 500.ms),
-                              
                               const SizedBox(height: 8),
-                              
                               Text(
                                 'Join us today',
                                 style: TextStyle(
@@ -158,10 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   .fadeIn(duration: 400.ms),
                             ],
                           ),
-                          
                           const SizedBox(height: 40),
-                          
-                          // Name field
                           CustomTextField(
                             controller: _nameController,
                             label: 'Full Name',
@@ -180,10 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               .animate(delay: 600.ms)
                               .slideX(begin: -0.2, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 20),
-                          
-                          // Email field
                           CustomTextField(
                             controller: _emailController,
                             label: 'Email',
@@ -203,10 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               .animate(delay: 700.ms)
                               .slideX(begin: 0.2, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 20),
-                          
-                          // Password field
                           CustomTextField(
                             controller: _passwordController,
                             label: 'Password',
@@ -238,10 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               .animate(delay: 800.ms)
                               .slideX(begin: -0.2, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 20),
-                          
-                          // Confirm Password field
                           CustomTextField(
                             controller: _confirmPasswordController,
                             label: 'Confirm Password',
@@ -273,10 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               .animate(delay: 900.ms)
                               .slideX(begin: 0.2, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 32),
-                          
-                          // Register button
                           ElevatedButton(
                             onPressed: _isLoading ? null : _register,
                             style: ElevatedButton.styleFrom(
@@ -308,10 +278,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               .animate(delay: 1000.ms)
                               .slideY(begin: 0.3, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 24),
-                          
-                          // Sign in link
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();

@@ -1,5 +1,4 @@
 import '../../domain/entities/conversion_result.dart';
-
 class ConversionResultModel extends ConversionResult {
   const ConversionResultModel({
     required super.amount,
@@ -9,7 +8,6 @@ class ConversionResultModel extends ConversionResult {
     required super.exchangeRate,
     required super.timestamp,
   });
-
   factory ConversionResultModel.fromJson(Map<String, dynamic> json) {
     return ConversionResultModel(
       amount: (json['amount'] as num).toDouble(),
@@ -22,7 +20,6 @@ class ConversionResultModel extends ConversionResult {
       ),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'amount': amount,
@@ -33,7 +30,6 @@ class ConversionResultModel extends ConversionResult {
       'timestamp': timestamp.millisecondsSinceEpoch,
     };
   }
-
   factory ConversionResultModel.fromEntity(ConversionResult entity) {
     return ConversionResultModel(
       amount: entity.amount,

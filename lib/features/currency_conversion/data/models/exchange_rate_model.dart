@@ -1,5 +1,4 @@
 import '../../domain/entities/exchange_rate.dart';
-
 class ExchangeRateModel extends ExchangeRate {
   const ExchangeRateModel({
     required super.fromCurrency,
@@ -7,7 +6,6 @@ class ExchangeRateModel extends ExchangeRate {
     required super.rate,
     required super.timestamp,
   });
-
   factory ExchangeRateModel.fromJson(Map<String, dynamic> json) {
     return ExchangeRateModel(
       fromCurrency: json['from_currency'] as String,
@@ -18,7 +16,6 @@ class ExchangeRateModel extends ExchangeRate {
       ),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'from_currency': fromCurrency,

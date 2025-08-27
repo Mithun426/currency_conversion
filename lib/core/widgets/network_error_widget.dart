@@ -1,41 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 class NetworkErrorWidget extends StatefulWidget {
   final VoidCallback? onRetry;
   final String? customMessage;
-
   const NetworkErrorWidget({
     super.key,
     this.onRetry,
     this.customMessage,
   });
-
   @override
   State<NetworkErrorWidget> createState() => _NetworkErrorWidgetState();
 }
-
 class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
     with TickerProviderStateMixin {
   late AnimationController _waveController;
   late AnimationController _iconController;
   late Animation<double> _waveAnimation;
   late Animation<double> _iconAnimation;
-
   @override
   void initState() {
     super.initState();
-    
     _waveController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
     _iconController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-
     _waveAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -43,7 +35,6 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
       parent: _waveController,
       curve: Curves.easeInOut,
     ));
-
     _iconAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -51,19 +42,15 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
       parent: _iconController,
       curve: Curves.elasticOut,
     ));
-
-    // Start animations
     _iconController.forward();
     _waveController.repeat();
   }
-
   @override
   void dispose() {
     _waveController.dispose();
     _iconController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -72,14 +59,12 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Animated WiFi Icon with Waves
             SizedBox(
               width: 160,
               height: 160,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // WiFi Waves
                   ...List.generate(3, (index) {
                     return AnimatedBuilder(
                       animation: _waveAnimation,
@@ -100,8 +85,6 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
                       },
                     );
                   }),
-                  
-                  // Main WiFi Icon
                   AnimatedBuilder(
                     animation: _iconAnimation,
                     builder: (context, child) {
@@ -132,10 +115,7 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
             ).animate()
                 .fadeIn(duration: const Duration(milliseconds: 600))
                 .slideY(begin: -0.3, duration: const Duration(milliseconds: 600)),
-            
             const SizedBox(height: 32),
-            
-            // Error Title
             Text(
               'No Internet Connection',
               style: TextStyle(
@@ -147,10 +127,7 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
             ).animate()
                 .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 200))
                 .slideY(begin: 0.3, duration: const Duration(milliseconds: 800)),
-            
             const SizedBox(height: 16),
-            
-            // Error Message
             Text(
               widget.customMessage ?? 
               'Please check your internet connection and try again.',
@@ -163,10 +140,7 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
             ).animate()
                 .fadeIn(duration: const Duration(milliseconds: 1000), delay: const Duration(milliseconds: 400))
                 .slideY(begin: 0.3, duration: const Duration(milliseconds: 1000)),
-            
             const SizedBox(height: 40),
-            
-            // Retry Button
             if (widget.onRetry != null)
               ElevatedButton.icon(
                 onPressed: widget.onRetry,
@@ -192,10 +166,7 @@ class _NetworkErrorWidgetState extends State<NetworkErrorWidget>
                   .slideY(begin: 0.5, duration: const Duration(milliseconds: 600))
                   .then()
                   .shimmer(duration: const Duration(milliseconds: 1000)),
-            
             const SizedBox(height: 32),
-            
-            // Connection Status Indicator
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 class SkeletonShimmer extends StatefulWidget {
   final Widget child;
   final bool isLoading;
   final Color? baseColor;
   final Color? highlightColor;
   final Duration duration;
-
   const SkeletonShimmer({
     super.key,
     required this.child,
@@ -15,16 +13,13 @@ class SkeletonShimmer extends StatefulWidget {
     this.highlightColor,
     this.duration = const Duration(milliseconds: 1500),
   });
-
   @override
   State<SkeletonShimmer> createState() => _SkeletonShimmerState();
 }
-
 class _SkeletonShimmerState extends State<SkeletonShimmer>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-
   @override
   void initState() {
     super.initState();
@@ -32,7 +27,6 @@ class _SkeletonShimmerState extends State<SkeletonShimmer>
       duration: widget.duration,
       vsync: this,
     );
-    
     _animation = Tween<double>(
       begin: -1.0,
       end: 2.0,
@@ -40,12 +34,10 @@ class _SkeletonShimmerState extends State<SkeletonShimmer>
       parent: _controller,
       curve: Curves.easeInOutSine,
     ));
-
     if (widget.isLoading) {
       _controller.repeat();
     }
   }
-
   @override
   void didUpdateWidget(SkeletonShimmer oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -57,32 +49,26 @@ class _SkeletonShimmerState extends State<SkeletonShimmer>
       }
     }
   }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     if (!widget.isLoading) {
       return widget.child;
     }
-
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     final baseColor = widget.baseColor ?? 
         (isDarkMode 
             ? const Color(0xFF2A2D37) 
             : Colors.grey[300]!);
-    
     final highlightColor = widget.highlightColor ?? 
         (isDarkMode 
             ? const Color(0xFF3A3D47) 
             : Colors.grey[100]!);
-
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -110,24 +96,20 @@ class _SkeletonShimmerState extends State<SkeletonShimmer>
     );
   }
 }
-
 class SkeletonContainer extends StatelessWidget {
   final double? width;
   final double? height;
   final BorderRadius? borderRadius;
-
   const SkeletonContainer({
     super.key,
     this.width,
     this.height,
     this.borderRadius,
   });
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     return Container(
       width: width,
       height: height,
@@ -140,17 +122,14 @@ class SkeletonContainer extends StatelessWidget {
     );
   }
 }
-
 class ConversionSkeletonLoader extends StatelessWidget {
   const ConversionSkeletonLoader({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          // From currency skeleton
           SkeletonShimmer(
             child: Row(
               children: [
@@ -186,10 +165,7 @@ class ConversionSkeletonLoader extends StatelessWidget {
               ],
             ),
           ),
-          
           const SizedBox(height: 24),
-          
-          // Exchange icon skeleton
           SkeletonShimmer(
             child: SkeletonContainer(
               width: 40,
@@ -197,10 +173,7 @@ class ConversionSkeletonLoader extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          
           const SizedBox(height: 24),
-          
-          // To currency skeleton
           SkeletonShimmer(
             child: Row(
               children: [
@@ -236,10 +209,7 @@ class ConversionSkeletonLoader extends StatelessWidget {
               ],
             ),
           ),
-          
           const SizedBox(height: 32),
-          
-          // Exchange rate skeleton
           SkeletonShimmer(
             child: Center(
               child: SkeletonContainer(

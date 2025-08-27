@@ -3,13 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:currency_picker/currency_picker.dart';
 import '../../data/models/currency_model.dart';
-
 class AnimatedCurrencyPicker extends StatefulWidget {
   final String selectedCurrency;
   final List<CurrencyModel> currencies;
   final Function(Currency) onCurrencySelected;
   final String label;
-
   const AnimatedCurrencyPicker({
     super.key,
     required this.selectedCurrency,
@@ -17,17 +15,14 @@ class AnimatedCurrencyPicker extends StatefulWidget {
     required this.onCurrencySelected,
     required this.label,
   });
-
   @override
   State<AnimatedCurrencyPicker> createState() => _AnimatedCurrencyPickerState();
 }
-
 class _AnimatedCurrencyPickerState extends State<AnimatedCurrencyPicker>
     with TickerProviderStateMixin {
   late AnimationController _chipController;
   late Animation<double> _chipScale;
   bool _isPressed = false;
-
   @override
   void initState() {
     super.initState();
@@ -43,25 +38,20 @@ class _AnimatedCurrencyPickerState extends State<AnimatedCurrencyPicker>
       curve: Curves.easeInOut,
     ));
   }
-
   @override
   void dispose() {
     _chipController.dispose();
     super.dispose();
   }
-
   Currency get selectedCurrencyFromPicker {
     try {
       return CurrencyService().findByCode(widget.selectedCurrency) ?? 
              CurrencyService().findByCode('USD')!;
     } catch (e) {
-      // Fallback to USD if not found
       return CurrencyService().findByCode('USD')!;
     }
   }
-
   String _getCountryCodeFromCurrency(String currencyCode) {
-    // Map common currency codes to country codes for flags
     const currencyToCountry = {
       'USD': 'US', 'EUR': 'EU', 'GBP': 'GB', 'JPY': 'JP', 'CAD': 'CA',
       'AUD': 'AU', 'CHF': 'CH', 'CNY': 'CN', 'INR': 'IN', 'KRW': 'KR',
@@ -75,7 +65,6 @@ class _AnimatedCurrencyPickerState extends State<AnimatedCurrencyPicker>
     };
     return currencyToCountry[currencyCode] ?? 'XX';
   }
-
   void _showCurrencyPicker() {
     showCurrencyPicker(
       context: context,
@@ -126,11 +115,9 @@ class _AnimatedCurrencyPickerState extends State<AnimatedCurrencyPicker>
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final currency = selectedCurrencyFromPicker;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

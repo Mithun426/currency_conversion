@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 class ConversionResult extends Equatable {
   final double amount;
   final String fromCurrency;
@@ -7,7 +6,6 @@ class ConversionResult extends Equatable {
   final double convertedAmount;
   final double exchangeRate;
   final DateTime timestamp;
-
   const ConversionResult({
     required this.amount,
     required this.fromCurrency,
@@ -16,7 +14,6 @@ class ConversionResult extends Equatable {
     required this.exchangeRate,
     required this.timestamp,
   });
-
   @override
   List<Object> get props => [
         amount,

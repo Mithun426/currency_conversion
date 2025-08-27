@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'skeleton_shimmer.dart';
-
 class PageSkeletonShimmer extends StatelessWidget {
   const PageSkeletonShimmer({super.key});
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Currency Conversion Card Skeleton
           Card(
             elevation: isDarkMode ? 12 : 4,
             shadowColor: isDarkMode 
@@ -47,7 +43,6 @@ class PageSkeletonShimmer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Convert Currency Title Skeleton
                     SkeletonShimmer(
                       child: SkeletonContainer(
                         width: 150,
@@ -55,10 +50,7 @@ class PageSkeletonShimmer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
-                    
                     const SizedBox(height: 24),
-                    
-                    // Amount Input Skeleton
                     SkeletonShimmer(
                       child: SkeletonContainer(
                         width: double.infinity,
@@ -66,13 +58,9 @@ class PageSkeletonShimmer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    
                     const SizedBox(height: 24),
-                    
-                    // Currency Selection Row Skeleton
                     Row(
                       children: [
-                        // From Currency Skeleton
                         Expanded(
                           child: SkeletonShimmer(
                             child: SkeletonContainer(
@@ -82,10 +70,7 @@ class PageSkeletonShimmer extends StatelessWidget {
                             ),
                           ),
                         ),
-                        
                         const SizedBox(width: 8),
-                        
-                        // Swap Button Skeleton
                         SkeletonShimmer(
                           child: SkeletonContainer(
                             width: 48,
@@ -93,10 +78,7 @@ class PageSkeletonShimmer extends StatelessWidget {
                             borderRadius: BorderRadius.circular(24),
                           ),
                         ),
-                        
                         const SizedBox(width: 8),
-                        
-                        // To Currency Skeleton
                         Expanded(
                           child: SkeletonShimmer(
                             child: SkeletonContainer(
@@ -108,10 +90,7 @@ class PageSkeletonShimmer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    
                     const SizedBox(height: 32),
-                    
-                    // Convert Button Skeleton
                     SkeletonShimmer(
                       child: SkeletonContainer(
                         width: double.infinity,
@@ -119,10 +98,7 @@ class PageSkeletonShimmer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    
                     const SizedBox(height: 16),
-                    
-                    // Toggle Button Skeleton
                     Align(
                       alignment: Alignment.centerRight,
                       child: SkeletonShimmer(
@@ -138,10 +114,7 @@ class PageSkeletonShimmer extends StatelessWidget {
               ),
             ),
           ),
-          
           const SizedBox(height: 16),
-          
-          // Additional Content Skeletons
           Row(
             children: [
               Expanded(
@@ -165,10 +138,7 @@ class PageSkeletonShimmer extends StatelessWidget {
               ),
             ],
           ),
-          
           const SizedBox(height: 16),
-          
-          // Long Content Skeleton
           SkeletonShimmer(
             child: SkeletonContainer(
               width: double.infinity,
@@ -176,10 +146,7 @@ class PageSkeletonShimmer extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          
           const SizedBox(height: 16),
-          
-          // Multiple Line Skeletons
           Column(
             children: [
               SkeletonShimmer(

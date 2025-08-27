@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 class AnimatedSuccessWidget extends StatefulWidget {
   final String title;
   final String? subtitle;
   final VoidCallback? onTap;
   final Duration duration;
-
   const AnimatedSuccessWidget({
     super.key,
     required this.title,
@@ -14,26 +12,21 @@ class AnimatedSuccessWidget extends StatefulWidget {
     this.onTap,
     this.duration = const Duration(milliseconds: 2000),
   });
-
   @override
   State<AnimatedSuccessWidget> createState() => _AnimatedSuccessWidgetState();
 }
-
 class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _checkAnimation;
   late Animation<double> _scaleAnimation;
-
   @override
   void initState() {
     super.initState();
-    
     _controller = AnimationController(
       duration: widget.duration,
       vsync: this,
     );
-
     _checkAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -41,7 +34,6 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
       parent: _controller,
       curve: const Interval(0.0, 0.6, curve: Curves.elasticOut),
     ));
-
     _scaleAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -49,16 +41,13 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
       parent: _controller,
       curve: const Interval(0.0, 0.8, curve: Curves.elasticOut),
     ));
-
     _controller.forward();
   }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -86,11 +75,9 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Animated success icon with particles
             Stack(
               alignment: Alignment.center,
               children: [
-                // Particle effects
                 ...List.generate(8, (index) {
                   final angle = (index * 45.0) * 3.14159 / 180;
                   return Transform.translate(
@@ -120,8 +107,6 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
                       .fadeOut(duration: 500.ms),
                   );
                 }),
-
-                // Main success circle
                 AnimatedBuilder(
                   animation: _scaleAnimation,
                   builder: (context, child) {
@@ -158,10 +143,7 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
                 ),
               ],
             ),
-
             const SizedBox(height: 24),
-
-            // Title
             Text(
               widget.title,
               style: const TextStyle(
@@ -173,7 +155,6 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
             ).animate()
               .fadeIn(duration: 600.ms, delay: 400.ms)
               .slideY(begin: 0.3, duration: 400.ms, delay: 400.ms),
-
             if (widget.subtitle != null) ...[
               const SizedBox(height: 8),
               Text(
@@ -194,13 +175,10 @@ class _AnimatedSuccessWidgetState extends State<AnimatedSuccessWidget>
     );
   }
 }
-
 class CheckmarkPainter extends CustomPainter {
   final double progress;
   final Color color;
-
   CheckmarkPainter({required this.progress, required this.color});
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -208,20 +186,14 @@ class CheckmarkPainter extends CustomPainter {
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-
     final center = Offset(size.width / 2, size.height / 2);
     final checkmarkPath = Path();
-
-    // Define checkmark points
     final startPoint = Offset(center.dx - 12, center.dy);
     final middlePoint = Offset(center.dx - 2, center.dy + 10);
     final endPoint = Offset(center.dx + 12, center.dy - 8);
-
     if (progress > 0) {
       checkmarkPath.moveTo(startPoint.dx, startPoint.dy);
-      
       if (progress <= 0.5) {
-        // First half: draw to middle point
         final currentPoint = Offset.lerp(
           startPoint,
           middlePoint,
@@ -229,7 +201,6 @@ class CheckmarkPainter extends CustomPainter {
         )!;
         checkmarkPath.lineTo(currentPoint.dx, currentPoint.dy);
       } else {
-        // Second half: complete first line and draw to end point
         checkmarkPath.lineTo(middlePoint.dx, middlePoint.dy);
         final currentPoint = Offset.lerp(
           middlePoint,
@@ -239,10 +210,8 @@ class CheckmarkPainter extends CustomPainter {
         checkmarkPath.lineTo(currentPoint.dx, currentPoint.dy);
       }
     }
-
     canvas.drawPath(checkmarkPath, paint);
   }
-
   @override
   bool shouldRepaint(CheckmarkPainter oldDelegate) {
     return oldDelegate.progress != progress;

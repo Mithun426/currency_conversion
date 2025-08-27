@@ -1,16 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/user.dart' as domain;
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
-
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-
   AuthRepositoryImpl({required this.remoteDataSource});
-
   @override
   Future<Either<Failure, domain.User>> signInWithEmailAndPassword({
     required String email,
@@ -28,7 +24,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: 'An unexpected error occurred'));
     }
   }
-
   @override
   Future<Either<Failure, domain.User>> registerWithEmailAndPassword({
     required String email,
@@ -48,7 +43,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: 'An unexpected error occurred'));
     }
   }
-
   @override
   Future<Either<Failure, void>> signOut() async {
     try {
@@ -60,7 +54,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: 'Failed to sign out'));
     }
   }
-
   @override
   Future<Either<Failure, domain.User?>> getCurrentUser() async {
     try {
@@ -72,12 +65,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: 'Failed to get current user'));
     }
   }
-
   @override
   Stream<domain.User?> get authStateChanges {
     return remoteDataSource.authStateChanges;
   }
-
   @override
   Future<Either<Failure, void>> sendPasswordResetEmail({required String email}) async {
     try {
@@ -89,7 +80,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: 'Failed to send password reset email'));
     }
   }
-
   String _getAuthErrorMessage(FirebaseAuthException error) {
     switch (error.code) {
       case 'user-not-found':

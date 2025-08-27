@@ -8,30 +8,24 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/shake_widget.dart';
 import '../../../currency_conversion/presentation/pages/currency_conversion_page.dart';
 import 'register_page.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _shakeKey = GlobalKey<ShakeWidgetState>();
-  
   bool _isPasswordVisible = false;
   bool _isLoading = false;
-
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-
   void _signIn() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -44,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
       _shakeKey.currentState?.shake();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             setState(() => _isLoading = false);
           }
-
           if (state is AuthError) {
             _shakeKey.currentState?.shake();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -71,9 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             );
           }
-
           if (state is AuthAuthenticated) {
-            // Navigate to main app
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => const CurrencyConversionPage(),
@@ -100,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Logo and welcome text
                           Column(
                             children: [
                               Container(
@@ -119,9 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                                   .animate()
                                   .scale(duration: 600.ms, curve: Curves.elasticOut)
                                   .fadeIn(duration: 400.ms),
-                              
                               const SizedBox(height: 24),
-                              
                               const Text(
                                 'Welcome Back!',
                                 style: TextStyle(
@@ -133,9 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                                   .animate(delay: 200.ms)
                                   .slideY(begin: 0.3, duration: 500.ms)
                                   .fadeIn(duration: 500.ms),
-                              
                               const SizedBox(height: 8),
-                              
                               Text(
                                 'Sign in to your account',
                                 style: TextStyle(
@@ -148,10 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                   .fadeIn(duration: 400.ms),
                             ],
                           ),
-                          
                           const SizedBox(height: 40),
-                          
-                          // Email field
                           CustomTextField(
                             controller: _emailController,
                             label: 'Email',
@@ -171,10 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                               .animate(delay: 600.ms)
                               .slideX(begin: -0.2, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 20),
-                          
-                          // Password field
                           CustomTextField(
                             controller: _passwordController,
                             label: 'Password',
@@ -206,10 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                               .animate(delay: 700.ms)
                               .slideX(begin: 0.2, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 32),
-                          
-                          // Sign in button
                           ElevatedButton(
                             onPressed: _isLoading ? null : _signIn,
                             style: ElevatedButton.styleFrom(
@@ -241,10 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                               .animate(delay: 800.ms)
                               .slideY(begin: 0.3, duration: 500.ms)
                               .fadeIn(duration: 500.ms),
-                          
                           const SizedBox(height: 24),
-                          
-                          // Divider
                           Row(
                             children: [
                               const Expanded(child: Divider()),
@@ -260,10 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                           )
                               .animate(delay: 900.ms)
                               .fadeIn(duration: 400.ms),
-                          
                           const SizedBox(height: 24),
-                          
-                          // Sign up button
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(

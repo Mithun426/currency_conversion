@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../domain/entities/trend_data.dart';
-
 class TrendStatisticsChips extends StatelessWidget {
   final CurrencyTrend trend;
-
   const TrendStatisticsChips({
     super.key,
     required this.trend,
   });
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -45,7 +41,6 @@ class TrendStatisticsChips extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildStatChip(String label, String value, Color bgColor, Color textColor, int delay, bool isDarkMode) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

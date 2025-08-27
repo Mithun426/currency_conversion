@@ -4,7 +4,6 @@ import '../models/currency_model.dart';
 import '../models/exchange_rate_model.dart';
 import '../models/conversion_result_model.dart';
 import '../models/api_response_model.dart';
-
 abstract class CurrencyRemoteDataSource {
   Future<List<CurrencyModel>> getAllCurrencies();
   Future<ExchangeRateModel> getExchangeRate({
@@ -17,17 +16,12 @@ abstract class CurrencyRemoteDataSource {
     required String to,
   });
 }
-
 class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
   final Dio dio;
-
   CurrencyRemoteDataSourceImpl({required this.dio});
-
   @override
   Future<List<CurrencyModel>> getAllCurrencies() async {
-    // Comprehensive list of world currencies
     final currencies = <CurrencyModel>[
-      // Major currencies
       const CurrencyModel(code: 'USD', name: 'US Dollar', symbol: '\$'),
       const CurrencyModel(code: 'EUR', name: 'Euro', symbol: '€'),
       const CurrencyModel(code: 'GBP', name: 'British Pound', symbol: '£'),
@@ -41,8 +35,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       const CurrencyModel(code: 'CHF', name: 'Swiss Franc', symbol: 'CHF'),
       const CurrencyModel(code: 'CNY', name: 'Chinese Yuan', symbol: '¥'),
       const CurrencyModel(code: 'INR', name: 'Indian Rupee', symbol: '₹'),
-
-      // Asian currencies
       const CurrencyModel(code: 'KRW', name: 'South Korean Won', symbol: '₩'),
       const CurrencyModel(code: 'SGD', name: 'Singapore Dollar', symbol: 'S\$'),
       const CurrencyModel(
@@ -62,8 +54,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       const CurrencyModel(code: 'MMK', name: 'Myanmar Kyat', symbol: 'K'),
       const CurrencyModel(code: 'LAK', name: 'Lao Kip', symbol: '₭'),
       const CurrencyModel(code: 'KHR', name: 'Cambodian Riel', symbol: '៛'),
-
-      // European currencies
       const CurrencyModel(code: 'NOK', name: 'Norwegian Krone', symbol: 'kr'),
       const CurrencyModel(code: 'SEK', name: 'Swedish Krona', symbol: 'kr'),
       const CurrencyModel(code: 'DKK', name: 'Danish Krone', symbol: 'kr'),
@@ -78,8 +68,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       const CurrencyModel(code: 'UAH', name: 'Ukrainian Hryvnia', symbol: '₴'),
       const CurrencyModel(code: 'TRY', name: 'Turkish Lira', symbol: '₺'),
       const CurrencyModel(code: 'ISK', name: 'Icelandic Krona', symbol: 'kr'),
-
-      // Middle Eastern currencies
       const CurrencyModel(code: 'AED', name: 'UAE Dirham', symbol: 'د.إ'),
       const CurrencyModel(code: 'SAR', name: 'Saudi Riyal', symbol: '﷼'),
       const CurrencyModel(code: 'QAR', name: 'Qatari Riyal', symbol: '﷼'),
@@ -91,8 +79,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       const CurrencyModel(code: 'ILS', name: 'Israeli Shekel', symbol: '₪'),
       const CurrencyModel(code: 'IRR', name: 'Iranian Rial', symbol: '﷼'),
       const CurrencyModel(code: 'IQD', name: 'Iraqi Dinar', symbol: 'د.ع'),
-
-      // African currencies
       const CurrencyModel(code: 'ZAR', name: 'South African Rand', symbol: 'R'),
       const CurrencyModel(code: 'EGP', name: 'Egyptian Pound', symbol: '£'),
       const CurrencyModel(code: 'NGN', name: 'Nigerian Naira', symbol: '₦'),
@@ -110,8 +96,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       const CurrencyModel(code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.'),
       const CurrencyModel(code: 'TND', name: 'Tunisian Dinar', symbol: 'د.ت'),
       const CurrencyModel(code: 'DZD', name: 'Algerian Dinar', symbol: 'د.ج'),
-
-      // American currencies
       const CurrencyModel(code: 'BRL', name: 'Brazilian Real', symbol: 'R\$'),
       const CurrencyModel(code: 'MXN', name: 'Mexican Peso', symbol: '\$'),
       const CurrencyModel(code: 'ARS', name: 'Argentine Peso', symbol: '\$'),
@@ -149,8 +133,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
         name: 'Trinidad & Tobago Dollar',
         symbol: 'TT\$',
       ),
-
-      // Oceania currencies
       const CurrencyModel(
         code: 'NZD',
         name: 'New Zealand Dollar',
@@ -170,8 +152,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
         name: 'Papua New Guinea Kina',
         symbol: 'K',
       ),
-
-      // Other notable currencies
       const CurrencyModel(code: 'XAU', name: 'Gold (Troy Ounce)', symbol: 'oz'),
       const CurrencyModel(
         code: 'XAG',
@@ -181,10 +161,8 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       const CurrencyModel(code: 'BTC', name: 'Bitcoin', symbol: '₿'),
       const CurrencyModel(code: 'ETH', name: 'Ethereum', symbol: 'Ξ'),
     ];
-
     return currencies;
   }
-
   @override
   Future<ExchangeRateModel> getExchangeRate({
     required String from,
@@ -195,7 +173,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
     if (response.statusCode == 200) {
       print("uuuuuuuuuuuuuuuuuuuuuuuu");
       final apiResponse = ApiConversionResponse.fromJson(response.data);
-
       return ExchangeRateModel(
         fromCurrency: from,
         toCurrency: to,
@@ -206,7 +183,6 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
       throw Exception('Failed to get exchange rate');
     }
   }
-
   @override
   Future<ConversionResultModel> convertCurrency({
     required double amount,
@@ -217,13 +193,10 @@ class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
     final response = await dio.get(url);
     print("iiiiiiiiiiiiiiiiiiiiiiiiii   ${response.data}");
     print("iiiiiiiiiiiiiiiiiiiiiiiiii   ${response.statusCode}");
-
     if (response.statusCode == 200) {
       print("uuuuuuuuuuuuuuuuuuuuuuuu  ${ApiConversionResponse}");
       final apiResponse = ApiConversionResponse.fromJson(response.data);
-
       print("555555555555555555555555555  ${apiResponse}");
-
       return ConversionResultModel(
         amount: amount,
         fromCurrency: from,

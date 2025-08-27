@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 enum ErrorType {
   server,
   network,
@@ -8,7 +7,6 @@ enum ErrorType {
   timeout,
   unknown,
 }
-
 class AnimatedErrorWidget extends StatefulWidget {
   final String message;
   final ErrorType errorType;
@@ -16,7 +14,6 @@ class AnimatedErrorWidget extends StatefulWidget {
   final VoidCallback? onGoBack;
   final bool showRetryButton;
   final bool showBackButton;
-
   const AnimatedErrorWidget({
     super.key,
     required this.message,
@@ -26,26 +23,20 @@ class AnimatedErrorWidget extends StatefulWidget {
     this.showRetryButton = true,
     this.showBackButton = false,
   });
-
   @override
   State<AnimatedErrorWidget> createState() => _AnimatedErrorWidgetState();
 }
-
 class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
     with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late AnimationController _shakeController;
   late AnimationController _bounceController;
-  
   late Animation<double> _pulseAnimation;
   late Animation<double> _shakeAnimation;
   late Animation<double> _bounceAnimation;
-
   @override
   void initState() {
     super.initState();
-    
-    // Pulse animation for the main icon
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
@@ -57,8 +48,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       parent: _pulseController,
       curve: Curves.easeInOut,
     ));
-
-    // Shake animation for severe errors
     _shakeController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
@@ -70,8 +59,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       parent: _shakeController,
       curve: Curves.elasticIn,
     ));
-
-    // Bounce animation for buttons
     _bounceController = AnimationController(
       duration: const Duration(milliseconds: 150),
       vsync: this,
@@ -83,16 +70,10 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       parent: _bounceController,
       curve: Curves.easeInOut,
     ));
-
-    // Start animations
     _startAnimations();
   }
-
   void _startAnimations() {
-    // Start pulse animation
     _pulseController.repeat(reverse: true);
-    
-    // Shake for severe errors
     if (widget.errorType == ErrorType.server || widget.errorType == ErrorType.api) {
       Future.delayed(const Duration(milliseconds: 300), () {
         if (mounted) {
@@ -103,7 +84,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       });
     }
   }
-
   @override
   void dispose() {
     _pulseController.dispose();
@@ -111,7 +91,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
     _bounceController.dispose();
     super.dispose();
   }
-
   IconData _getErrorIcon() {
     switch (widget.errorType) {
       case ErrorType.server:
@@ -127,7 +106,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
         return Icons.error_outline;
     }
   }
-
   Color _getErrorColor() {
     switch (widget.errorType) {
       case ErrorType.server:
@@ -143,7 +121,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
         return Colors.grey[600]!;
     }
   }
-
   String _getErrorTitle() {
     switch (widget.errorType) {
       case ErrorType.server:
@@ -159,7 +136,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
         return 'Something Went Wrong';
     }
   }
-
   Widget _buildAnimatedIcon() {
     return AnimatedBuilder(
       animation: Listenable.merge([_pulseAnimation, _shakeAnimation]),
@@ -190,12 +166,10 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       },
     );
   }
-
   Widget _buildRetryButton() {
     if (!widget.showRetryButton || widget.onRetry == null) {
       return const SizedBox.shrink();
     }
-
     return AnimatedBuilder(
       animation: _bounceAnimation,
       builder: (context, child) {
@@ -230,12 +204,10 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       },
     );
   }
-
   Widget _buildBackButton() {
     if (!widget.showBackButton || widget.onGoBack == null) {
       return const SizedBox.shrink();
     }
-
     return OutlinedButton.icon(
       onPressed: widget.onGoBack,
       style: OutlinedButton.styleFrom(
@@ -256,7 +228,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -265,15 +236,11 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Animated Error Icon
             _buildAnimatedIcon()
                 .animate()
                 .fadeIn(duration: const Duration(milliseconds: 600))
                 .slideY(begin: -0.3, duration: const Duration(milliseconds: 600)),
-            
             const SizedBox(height: 32),
-            
-            // Error Title
             Text(
               _getErrorTitle(),
               style: TextStyle(
@@ -285,10 +252,7 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
             ).animate()
                 .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 200))
                 .slideY(begin: 0.3, duration: const Duration(milliseconds: 800)),
-            
             const SizedBox(height: 16),
-            
-            // Error Message
             Text(
               widget.message,
               style: TextStyle(
@@ -300,30 +264,22 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
             ).animate()
                 .fadeIn(duration: const Duration(milliseconds: 1000), delay: const Duration(milliseconds: 400))
                 .slideY(begin: 0.3, duration: const Duration(milliseconds: 1000)),
-            
             const SizedBox(height: 40),
-            
-            // Action Buttons
             Column(
               children: [
                 _buildRetryButton()
                     .animate()
                     .fadeIn(duration: const Duration(milliseconds: 600), delay: const Duration(milliseconds: 600))
                     .slideY(begin: 0.5, duration: const Duration(milliseconds: 600)),
-                
                 if (widget.showBackButton && widget.showRetryButton)
                   const SizedBox(height: 16),
-                
                 _buildBackButton()
                     .animate()
                     .fadeIn(duration: const Duration(milliseconds: 600), delay: const Duration(milliseconds: 800))
                     .slideY(begin: 0.5, duration: const Duration(milliseconds: 600)),
               ],
             ),
-            
             const SizedBox(height: 32),
-            
-            // Helpful Tips
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -358,7 +314,6 @@ class _AnimatedErrorWidgetState extends State<AnimatedErrorWidget>
       ),
     );
   }
-
   String _getHelpfulTip() {
     switch (widget.errorType) {
       case ErrorType.server:

@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 class ApiModeToggle extends StatefulWidget {
   final bool isUseMockData;
   final Function(bool) onToggle;
-
   const ApiModeToggle({
     super.key,
     required this.isUseMockData,
     required this.onToggle,
   });
-
   @override
   State<ApiModeToggle> createState() => _ApiModeToggleState();
 }
-
 class _ApiModeToggleState extends State<ApiModeToggle>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _slideAnimation;
   late Animation<Color?> _colorAnimation;
-
   @override
   void initState() {
     super.initState();
@@ -28,7 +23,6 @@ class _ApiModeToggleState extends State<ApiModeToggle>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-
     _slideAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -36,7 +30,6 @@ class _ApiModeToggleState extends State<ApiModeToggle>
       parent: _controller,
       curve: Curves.easeInOutCubic,
     ));
-
     _colorAnimation = ColorTween(
       begin: Colors.grey[400],
       end: Colors.green[500],
@@ -44,15 +37,12 @@ class _ApiModeToggleState extends State<ApiModeToggle>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-
-    // Set initial state
     if (widget.isUseMockData) {
       _controller.reverse();
     } else {
       _controller.forward();
     }
   }
-
   @override
   void didUpdateWidget(ApiModeToggle oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -64,13 +54,11 @@ class _ApiModeToggleState extends State<ApiModeToggle>
       }
     }
   }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,7 +78,6 @@ class _ApiModeToggleState extends State<ApiModeToggle>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Mock option
                   AnimatedBuilder(
                     animation: _controller,
                     builder: (context, child) {
@@ -127,10 +114,7 @@ class _ApiModeToggleState extends State<ApiModeToggle>
                       );
                     },
                   ),
-                  
                   const SizedBox(width: 4),
-                  
-                  // Live option
                   AnimatedBuilder(
                     animation: _controller,
                     builder: (context, child) {

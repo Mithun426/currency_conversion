@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 enum ConvertButtonState {
   idle,
   pressed,
@@ -8,23 +7,19 @@ enum ConvertButtonState {
   success,
   error,
 }
-
 class AnimatedConvertButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final ConvertButtonState state;
   final String? errorMessage;
-
   const AnimatedConvertButton({
     super.key,
     this.onPressed,
     this.state = ConvertButtonState.idle,
     this.errorMessage,
   });
-
   @override
   State<AnimatedConvertButton> createState() => _AnimatedConvertButtonState();
 }
-
 class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
     with TickerProviderStateMixin {
   late AnimationController _pressController;
@@ -32,35 +27,28 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
   late AnimationController _successController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
-
   @override
   void initState() {
     super.initState();
-    
     _pressController = AnimationController(
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
-    
     _loadingController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
     _successController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _pressController, curve: Curves.easeInOut),
     );
-
     _rotationAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _loadingController, curve: Curves.linear),
     );
   }
-
   @override
   void dispose() {
     _pressController.dispose();
@@ -68,16 +56,13 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
     _successController.dispose();
     super.dispose();
   }
-
   @override
   void didUpdateWidget(AnimatedConvertButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
     if (widget.state != oldWidget.state) {
       _handleStateChange();
     }
   }
-
   void _handleStateChange() {
     switch (widget.state) {
       case ConvertButtonState.idle:
@@ -104,9 +89,7 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         break;
     }
   }
-
   Widget _buildButtonContent() {
-    // Handle disabled state
     if (widget.onPressed == null) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -128,7 +111,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         ],
       );
     }
-    
     switch (widget.state) {
       case ConvertButtonState.idle:
       case ConvertButtonState.pressed:
@@ -225,13 +207,10 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         );
     }
   }
-
   Color _getButtonColor() {
-    // If onPressed is null, button is disabled
     if (widget.onPressed == null) {
       return Colors.grey[400]!;
     }
-    
     switch (widget.state) {
       case ConvertButtonState.idle:
       case ConvertButtonState.pressed:
@@ -243,7 +222,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         return Colors.red[600]!;
     }
   }
-
   double _getButtonHeight() {
     switch (widget.state) {
       case ConvertButtonState.pressed:
@@ -254,7 +232,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         return 60;
     }
   }
-
   double _getBorderRadius() {
     switch (widget.state) {
       case ConvertButtonState.success:
@@ -265,7 +242,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         return 16;
     }
   }
-
   double _getShadowBlur() {
     switch (widget.state) {
       case ConvertButtonState.pressed:
@@ -278,7 +254,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         return 8;
     }
   }
-
   double _getShadowOffset() {
     switch (widget.state) {
       case ConvertButtonState.pressed:
@@ -289,7 +264,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         return 4;
     }
   }
-
   double _getShadowSpread() {
     switch (widget.state) {
       case ConvertButtonState.success:
@@ -298,25 +272,21 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
         return 0;
     }
   }
-
   Border? _getBorder() {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     switch (widget.state) {
       case ConvertButtonState.error:
         return Border.all(color: Colors.red[300]!, width: 2);
       case ConvertButtonState.success:
         return Border.all(color: Colors.green[300]!, width: 1);
       default:
-        // Add thin blue border in dark mode for idle/pressed states
         if (isDarkMode && widget.onPressed != null) {
           return Border.all(color: const Color(0xFF64B5F6), width: 1);
         }
         return null;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -373,8 +343,6 @@ class _AnimatedConvertButtonState extends State<AnimatedConvertButton>
             );
           },
         ),
-        
-        // Error message
         if (widget.state == ConvertButtonState.error && widget.errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 12),

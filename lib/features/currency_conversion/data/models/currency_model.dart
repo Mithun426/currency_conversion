@@ -1,13 +1,11 @@
 import 'package:country_flags/country_flags.dart';
 import '../../domain/entities/currency.dart';
-
 class CurrencyModel extends Currency {
   const CurrencyModel({
     required super.code,
     required super.name,
     required super.symbol,
   });
-
   factory CurrencyModel.fromJson(Map<String, dynamic> json) {
     return CurrencyModel(
       code: json['code'] as String,
@@ -15,7 +13,6 @@ class CurrencyModel extends Currency {
       symbol: json['symbol'] as String,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'code': code,
@@ -23,11 +20,8 @@ class CurrencyModel extends Currency {
       'symbol': symbol,
     };
   }
-
-  // Get country code for the currency
   String get countryCode {
     switch (code) {
-      // Major currencies
       case 'USD': return 'US';
       case 'EUR': return 'EU';
       case 'GBP': return 'GB';
@@ -37,8 +31,6 @@ class CurrencyModel extends Currency {
       case 'CHF': return 'CH';
       case 'CNY': return 'CN';
       case 'INR': return 'IN';
-      
-      // Asian currencies
       case 'KRW': return 'KR';
       case 'SGD': return 'SG';
       case 'HKD': return 'HK';
@@ -54,8 +46,6 @@ class CurrencyModel extends Currency {
       case 'MMK': return 'MM';
       case 'LAK': return 'LA';
       case 'KHR': return 'KH';
-      
-      // European currencies
       case 'NOK': return 'NO';
       case 'SEK': return 'SE';
       case 'DKK': return 'DK';
@@ -70,8 +60,6 @@ class CurrencyModel extends Currency {
       case 'UAH': return 'UA';
       case 'TRY': return 'TR';
       case 'ISK': return 'IS';
-      
-      // Middle Eastern currencies
       case 'AED': return 'AE';
       case 'SAR': return 'SA';
       case 'QAR': return 'QA';
@@ -83,8 +71,6 @@ class CurrencyModel extends Currency {
       case 'ILS': return 'IL';
       case 'IRR': return 'IR';
       case 'IQD': return 'IQ';
-      
-      // African currencies
       case 'ZAR': return 'ZA';
       case 'EGP': return 'EG';
       case 'NGN': return 'NG';
@@ -98,8 +84,6 @@ class CurrencyModel extends Currency {
       case 'MAD': return 'MA';
       case 'TND': return 'TN';
       case 'DZD': return 'DZ';
-      
-      // American currencies
       case 'BRL': return 'BR';
       case 'MXN': return 'MX';
       case 'ARS': return 'AR';
@@ -117,8 +101,6 @@ class CurrencyModel extends Currency {
       case 'PAB': return 'PA';
       case 'JMD': return 'JM';
       case 'TTD': return 'TT';
-      
-      // Oceania currencies
       case 'NZD': return 'NZ';
       case 'FJD': return 'FJ';
       case 'TOP': return 'TO';
@@ -126,19 +108,14 @@ class CurrencyModel extends Currency {
       case 'SBD': return 'SB';
       case 'VUV': return 'VU';
       case 'PGK': return 'PG';
-      
-      // Special cases
       case 'XAU':
       case 'XAG':
       case 'BTC':
       case 'ETH':
-        return 'XX'; // Generic flag for commodities/crypto
-      
+        return 'XX'; 
       default: return 'XX';
     }
   }
-
-  // Get flag emoji for the currency (fallback)
   String get flagEmoji {
     switch (code) {
       case 'USD': return '🇺🇸';
@@ -227,10 +204,10 @@ class CurrencyModel extends Currency {
       case 'SBD': return '🇸🇧';
       case 'VUV': return '🇻🇺';
       case 'PGK': return '🇵🇬';
-      case 'XAU': return '🥇'; // Gold
-      case 'XAG': return '🥈'; // Silver
-      case 'BTC': return '₿'; // Bitcoin
-      case 'ETH': return 'Ξ'; // Ethereum
+      case 'XAU': return '🥇'; 
+      case 'XAG': return '🥈'; 
+      case 'BTC': return '₿'; 
+      case 'ETH': return 'Ξ'; 
       default: return '🏳️';
     }
   }

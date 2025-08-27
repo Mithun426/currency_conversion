@@ -3,7 +3,6 @@ import '../../../../core/error/failures.dart';
 import '../entities/currency.dart';
 import '../entities/exchange_rate.dart';
 import '../entities/conversion_result.dart';
-
 abstract class CurrencyRepository {
   Future<Either<Failure, List<Currency>>> getAllCurrencies();
   Future<Either<Failure, ExchangeRate>> getExchangeRate({

@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import '../error/failures.dart';
-
 class InputConverter {
   Either<Failure, double> stringToUnsignedDouble(String str) {
     try {

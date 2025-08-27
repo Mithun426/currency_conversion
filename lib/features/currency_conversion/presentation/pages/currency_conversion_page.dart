@@ -11,7 +11,6 @@ import '../widgets/animated_convert_button.dart';
 import '../widgets/animated_swap_button.dart';
 import '../widgets/api_mode_toggle.dart';
 import '../widgets/conversion_result_widget.dart';
-
 import '../../../authentication/presentation/bloc/auth_bloc.dart';
 import '../../../authentication/presentation/bloc/auth_event.dart';
 import '../../../authentication/presentation/pages/login_page.dart';
@@ -21,14 +20,11 @@ import '../../../../core/widgets/animated_error_widget.dart';
 import '../../../../core/widgets/enhanced_menu_drawer.dart';
 import '../../../../core/widgets/skeleton_shimmer.dart';
 import '../../../../core/widgets/page_skeleton_shimmer.dart';
-
 class CurrencyConversionPage extends StatefulWidget {
   const CurrencyConversionPage({super.key});
-
   @override
   State<CurrencyConversionPage> createState() => _CurrencyConversionPageState();
 }
-
 class _CurrencyConversionPageState extends State<CurrencyConversionPage>
     with TickerProviderStateMixin {
   final TextEditingController _amountController = TextEditingController();
@@ -36,48 +32,37 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
   String _toCurrency = 'INR';
   ConvertButtonState _buttonState = ConvertButtonState.idle;
   String? _errorMessage;
-  bool _isConverting = false; // Track if we're actually converting
-  bool _isUseMockData = false; // Toggle between mock and real API
-  
-  // Animation controllers for currency swap
+  bool _isConverting = false; 
+  bool _isUseMockData = false; 
   late AnimationController _swapAnimationController;
   late Animation<double> _fromSlideAnimation;
   late Animation<double> _toSlideAnimation;
-
   @override
   void initState() {
     super.initState();
-    // Use post-frame callback to avoid initial flash
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<CurrencyConversionBloc>().add(LoadCurrenciesEvent());
       }
     });
-    
-    // Initialize swap animation - optimized for 60fps
     _swapAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 600), // Shorter, smoother duration
+      duration: const Duration(milliseconds: 600), 
       vsync: this,
     );
-
-    // Create slide animations for currency interchange with proper easing
     _fromSlideAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _swapAnimationController,
-      curve: Curves.easeInOutCubic, // Smoother curve for better perception
+      curve: Curves.easeInOutCubic, 
     ));
-
     _toSlideAnimation = Tween<double>(
       begin: 0.0,
       end: -1.0,
     ).animate(CurvedAnimation(
       parent: _swapAnimationController,
-      curve: Curves.easeInOutCubic, // Matching curve for symmetry
+      curve: Curves.easeInOutCubic, 
     ));
-
-    // Reset button state when amount changes and trigger rebuild
     _amountController.addListener(() {
       setState(() {
         if (_amountController.text.isEmpty) {
@@ -87,39 +72,27 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
       });
     });
   }
-
   @override
   void dispose() {
     _amountController.dispose();
     _swapAnimationController.dispose();
     super.dispose();
   }
-
-  // Handle currency swap with animation
   void _handleSwap() async {
-    // Start the animation
     await _swapAnimationController.forward();
-    
-    // Perform the actual swap
     setState(() {
       final temp = _fromCurrency;
       _fromCurrency = _toCurrency;
       _toCurrency = temp;
     });
-    
-    // Dispatch the swap event to BLoC
     if (!mounted) return;
     context.read<CurrencyConversionBloc>().add(SwapCurrenciesEvent());
-    
-    // Reset animation
     _swapAnimationController.reset();
   }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     return Scaffold(
       backgroundColor: isDarkMode ? const Color(0xFF0A0E13) : const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -189,10 +162,8 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
             setState(() {
               _buttonState = ConvertButtonState.success;
               _errorMessage = null;
-              _isConverting = false; // Reset the flag
+              _isConverting = false; 
             });
-            
-            // Reset button to idle state after a short delay
             Future.delayed(const Duration(milliseconds: 1200), () {
               if (mounted) {
                 setState(() {
@@ -204,10 +175,8 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
             setState(() {
               _buttonState = ConvertButtonState.error;
               _errorMessage = state.message;
-              _isConverting = false; // Reset the flag
+              _isConverting = false; 
             });
-            
-            // Show error snackbar with retry option
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Row(
@@ -236,12 +205,10 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                   textColor: Colors.white,
                   onPressed: () {
                     if (_amountController.text.trim().isNotEmpty) {
-                      // Check if both currencies are the same
                       if (_fromCurrency == _toCurrency) {
                         _showSameCurrencySnackBar();
                         return;
                       }
-                      
                       setState(() {
                         _buttonState = ConvertButtonState.loading;
                         _errorMessage = null;
@@ -261,8 +228,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                 duration: const Duration(seconds: 4),
               ),
             );
-            
-            // Reset button to idle state after showing error briefly
             Future.delayed(const Duration(milliseconds: 2000), () {
               if (mounted) {
                 setState(() {
@@ -279,9 +244,7 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
       ),
     );
   }
-
   Widget _getConversionDisplay(CurrencyConversionState state, bool isDarkMode) {
-    // Show skeleton shimmer when converting
     if (_buttonState == ConvertButtonState.loading) {
       return Card(
         key: const ValueKey('skeleton-loading'),
@@ -315,8 +278,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         ),
       );
     }
-    
-    // Show result if available
     if (state is CurrencyConversionLoaded && state.conversionResult != null) {
       return ConversionResultWidget(
         key: ValueKey(state.conversionResult.hashCode),
@@ -324,23 +285,18 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         currencies: state.currencies.cast<CurrencyModel>(),
       );
     }
-    
-    // Show empty state
     return const SizedBox.shrink(
       key: ValueKey('empty'),
     );
   }
-
   Widget _buildStateContent(CurrencyConversionState state) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
     if (state is CurrencyConversionInitial || state is CurrencyConversionLoading) {
       return const PageSkeletonShimmer(
         key: ValueKey('loading'),
       );
     }
-
     if (state is CurrencyConversionError) {
       return AnimatedErrorWidget(
         key: const ValueKey('error'),
@@ -352,7 +308,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         showRetryButton: true,
       );
     }
-
     if (state is CurrencyConversionLoaded) {
       return SingleChildScrollView(
         key: const ValueKey('loaded'),
@@ -360,7 +315,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Currency Conversion Card
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -384,7 +338,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                       controller: _amountController,
                       currency: _fromCurrency,
                       onChanged: (value) {
-                        // Optional: Auto-convert on input change
                       },
                     ),
                     const SizedBox(height: 24),
@@ -392,7 +345,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                       children: [
                         Row(
                           children: [
-                            // From Currency with Slide Animation
                             Expanded(
                                                                 child: RepaintBoundary(
                                     child: AnimatedBuilder(
@@ -400,8 +352,8 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                                       builder: (context, child) {
                                         return Transform.translate(
                                           offset: Offset(
-                                            _fromSlideAnimation.value * MediaQuery.of(context).size.width * 0.25, // Reduced movement
-                                            _fromSlideAnimation.value * 15, // Reduced vertical movement
+                                            _fromSlideAnimation.value * MediaQuery.of(context).size.width * 0.25, 
+                                            _fromSlideAnimation.value * 15, 
                                           ),
                                           child: child,
                                         );
@@ -423,7 +375,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                               ),
                             ),
                             const SizedBox(width: 8),
-                                                          // Animated Swap Button
                               Padding(
                                 padding: const EdgeInsets.only(top: 24),
                                 child: AnimatedSwapButton(
@@ -431,7 +382,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                                 ),
                               ),
                             const SizedBox(width: 8),
-                            // To Currency with Slide Animation
                             Expanded(
                                                                 child: RepaintBoundary(
                                     child: AnimatedBuilder(
@@ -439,8 +389,8 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                                       builder: (context, child) {
                                         return Transform.translate(
                                           offset: Offset(
-                                            _toSlideAnimation.value * MediaQuery.of(context).size.width * 0.25, // Reduced movement
-                                            _toSlideAnimation.value * -15, // Reduced vertical movement
+                                            _toSlideAnimation.value * MediaQuery.of(context).size.width * 0.25, 
+                                            _toSlideAnimation.value * -15, 
                                           ),
                                           child: child,
                                         );
@@ -470,16 +420,14 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                       state: _buttonState,
                       errorMessage: _errorMessage,
                       onPressed: _amountController.text.trim().isEmpty ? null : () {
-                        // Check if both currencies are the same
                         if (_fromCurrency == _toCurrency) {
                           _showSameCurrencySnackBar();
                           return;
                         }
-                        
                         setState(() {
                           _buttonState = ConvertButtonState.loading;
                           _errorMessage = null;
-                          _isConverting = true; // Mark that we're converting
+                          _isConverting = true; 
                         });
                         context.read<CurrencyConversionBloc>().add(
                           ConvertCurrencyEvent(
@@ -491,7 +439,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                         );
                       },
                     ),
-                    // API Mode Toggle
                     ApiModeToggle(
                       isUseMockData: _isUseMockData,
                       onToggle: (useMock) {
@@ -505,7 +452,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
               ),
             ),
             const SizedBox(height: 16),
-            // Conversion Result with AnimatedSwitcher
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 400),
               transitionBuilder: (Widget child, Animation<double> animation) {
@@ -513,7 +459,7 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
                   opacity: animation,
                   child: SlideTransition(
                     position: Tween<Offset>(
-                      begin: const Offset(0.0, 0.2), // Reduced movement
+                      begin: const Offset(0.0, 0.2), 
                       end: Offset.zero,
                     ).animate(CurvedAnimation(
                       parent: animation,
@@ -529,23 +475,17 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         ),
       );
     }
-
-    // Return a simple loading state for unknown states
     return const AnimatedLoadingWidget(
       key: ValueKey('unknown'),
       message: 'Initializing...',
       style: LoadingStyle.pulsing,
     );
   }
-
   ErrorType _getErrorType(String errorMessage, bool isUseMockData) {
-    // In mock mode, never show network errors - it's local data
     if (isUseMockData) {
-      return ErrorType.unknown; // Generic error for mock failures
+      return ErrorType.unknown; 
     }
-    
     final message = errorMessage.toLowerCase();
-    
     if (message.contains('network') || message.contains('connection') || 
         message.contains('internet') || message.contains('offline')) {
       return ErrorType.network;
@@ -559,7 +499,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
       return ErrorType.unknown;
     }
   }
-
   IconData _getErrorIcon(String errorMessage, bool isUseMockData) {
     final errorType = _getErrorType(errorMessage, isUseMockData);
     switch (errorType) {
@@ -575,7 +514,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         return isUseMockData ? Icons.bug_report : Icons.error;
     }
   }
-
   String _getShortErrorMessage(String errorMessage, bool isUseMockData) {
     final errorType = _getErrorType(errorMessage, isUseMockData);
     switch (errorType) {
@@ -591,7 +529,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         return isUseMockData ? 'Mock data error' : 'Conversion failed';
     }
   }
-
   Color _getErrorColor(String errorMessage, bool isUseMockData) {
     final errorType = _getErrorType(errorMessage, isUseMockData);
     switch (errorType) {
@@ -607,7 +544,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         return isUseMockData ? Colors.blue[600]! : Colors.grey[600]!;
     }
   }
-
   void _showSameCurrencySnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -639,8 +575,6 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
           label: 'Select',
           textColor: Colors.amber[300],
           onPressed: () {
-            // Trigger currency picker for 'To' currency
-            // This could open the currency picker or highlight the to currency field
           },
         ),
         duration: const Duration(seconds: 3),

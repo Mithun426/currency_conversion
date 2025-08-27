@@ -4,10 +4,8 @@ import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
 import 'login_page.dart';
 import '../../../currency_conversion/presentation/pages/currency_conversion_page.dart';
-
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -19,13 +17,9 @@ class AuthWrapper extends StatelessWidget {
             ),
           );
         }
-
         if (state is AuthAuthenticated) {
-          // User is logged in, show the main app
           return const CurrencyConversionPage();
         }
-
-        // User is not logged in, show login page
         return const LoginPage();
       },
     );

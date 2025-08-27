@@ -2,59 +2,39 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// Events
 abstract class ThemeEvent extends Equatable {
   const ThemeEvent();
-
   @override
   List<Object> get props => [];
 }
-
 class ThemeInitialEvent extends ThemeEvent {}
-
 class ThemeToggleEvent extends ThemeEvent {}
-
 class ThemeChangeEvent extends ThemeEvent {
   final ThemeMode themeMode;
-
   const ThemeChangeEvent(this.themeMode);
-
   @override
   List<Object> get props => [themeMode];
 }
-
-// States
 abstract class ThemeState extends Equatable {
   const ThemeState();
-
   @override
   List<Object> get props => [];
 }
-
 class ThemeInitial extends ThemeState {}
-
 class ThemeLoaded extends ThemeState {
   final ThemeMode themeMode;
-
   const ThemeLoaded(this.themeMode);
-
   bool get isDarkMode => themeMode == ThemeMode.dark;
-
   @override
   List<Object> get props => [themeMode];
 }
-
-// BLoC
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   static const String _themeKey = 'theme_mode';
-
   ThemeBloc() : super(ThemeInitial()) {
     on<ThemeInitialEvent>(_onThemeInitial);
     on<ThemeToggleEvent>(_onThemeToggle);
     on<ThemeChangeEvent>(_onThemeChange);
   }
-
   Future<void> _onThemeInitial(
     ThemeInitialEvent event,
     Emitter<ThemeState> emit,
@@ -65,10 +45,9 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       final themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
       emit(ThemeLoaded(themeMode));
     } catch (e) {
-      emit(const ThemeLoaded(ThemeMode.light)); // Default to light mode
+      emit(const ThemeLoaded(ThemeMode.light)); 
     }
   }
-
   Future<void> _onThemeToggle(
     ThemeToggleEvent event,
     Emitter<ThemeState> emit,
@@ -78,12 +57,10 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       final newThemeMode = currentState.themeMode == ThemeMode.light 
           ? ThemeMode.dark 
           : ThemeMode.light;
-      
       await _saveTheme(newThemeMode);
       emit(ThemeLoaded(newThemeMode));
     }
   }
-
   Future<void> _onThemeChange(
     ThemeChangeEvent event,
     Emitter<ThemeState> emit,
@@ -91,18 +68,14 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     await _saveTheme(event.themeMode);
     emit(ThemeLoaded(event.themeMode));
   }
-
   Future<void> _saveTheme(ThemeMode themeMode) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_themeKey, themeMode == ThemeMode.dark);
     } catch (e) {
-      // Handle error silently
     }
   }
 }
-
-// Enhanced Beautiful Themes
 class AppThemes {
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
@@ -157,7 +130,6 @@ class AppThemes {
       ),
     ),
   );
-
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,

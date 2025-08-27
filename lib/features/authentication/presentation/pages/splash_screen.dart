@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
-
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
-
   @override
   void initState() {
     super.initState();
-    
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     );
-
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -31,7 +25,6 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: const Interval(0.0, 0.6, curve: Curves.easeInOut),
     ));
-
     _scaleAnimation = Tween<double>(
       begin: 0.5,
       end: 1.0,
@@ -39,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: const Interval(0.2, 0.8, curve: Curves.elasticOut),
     ));
-
     _rotationAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -47,16 +39,13 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: const Interval(0.0, 1.0, curve: Curves.easeInOut),
     ));
-
     _controller.forward();
   }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +65,6 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Animated Logo
               AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
@@ -118,10 +106,7 @@ class _SplashScreenState extends State<SplashScreen>
                   );
                 },
               ),
-
               const SizedBox(height: 40),
-
-              // Animated Title
               AnimatedBuilder(
                 animation: _fadeAnimation,
                 builder: (context, child) {
@@ -141,10 +126,7 @@ class _SplashScreenState extends State<SplashScreen>
                   );
                 },
               ),
-
               const SizedBox(height: 16),
-
-              // Animated Subtitle
               const Text(
                 'Real-time Exchange Rates',
                 style: TextStyle(
@@ -155,16 +137,12 @@ class _SplashScreenState extends State<SplashScreen>
               ).animate()
                 .slideY(begin: 0.3, duration: 800.ms, curve: Curves.easeOut)
                 .fadeIn(duration: 600.ms, delay: 600.ms),
-
               const SizedBox(height: 60),
-
-              // Animated Loading Indicator
               Container(
                 width: 60,
                 height: 60,
                 child: Stack(
                   children: [
-                    // Outer ring
                     Container(
                       width: 60,
                       height: 60,
@@ -175,7 +153,6 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                       ),
                     ),
-                    // Inner animated ring
                     Container(
                       width: 60,
                       height: 60,
@@ -190,10 +167,7 @@ class _SplashScreenState extends State<SplashScreen>
               ).animate()
                 .fadeIn(duration: 600.ms, delay: 900.ms)
                 .scale(begin: const Offset(0.5, 0.5), duration: 400.ms, delay: 900.ms),
-
               const SizedBox(height: 30),
-
-              // Animated dots
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(3, (index) {
@@ -221,10 +195,7 @@ class _SplashScreenState extends State<SplashScreen>
                 }),
               ).animate()
                 .fadeIn(duration: 600.ms, delay: 1200.ms),
-
               const SizedBox(height: 40),
-
-              // Animated version text
               const Text(
                 'v1.0.0',
                 style: TextStyle(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 enum TransitionType {
   slideUp,
   slideDown,
@@ -10,13 +9,11 @@ enum TransitionType {
   rotation,
   ripple,
 }
-
 class AnimatedPageTransition extends PageRouteBuilder {
   final Widget child;
   final TransitionType transitionType;
   final Duration duration;
   final Curve curve;
-
   AnimatedPageTransition({
     required this.child,
     this.transitionType = TransitionType.slideUp,
@@ -36,7 +33,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
             );
           },
         );
-
   static Widget _buildTransition(
     Widget child,
     Animation<double> animation,
@@ -45,7 +41,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
     Curve curve,
   ) {
     final curvedAnimation = CurvedAnimation(parent: animation, curve: curve);
-
     switch (type) {
       case TransitionType.slideUp:
         return SlideTransition(
@@ -55,7 +50,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
           ).animate(curvedAnimation),
           child: child,
         );
-
       case TransitionType.slideDown:
         return SlideTransition(
           position: Tween<Offset>(
@@ -64,7 +58,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
           ).animate(curvedAnimation),
           child: child,
         );
-
       case TransitionType.slideLeft:
         return SlideTransition(
           position: Tween<Offset>(
@@ -73,7 +66,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
           ).animate(curvedAnimation),
           child: child,
         );
-
       case TransitionType.slideRight:
         return SlideTransition(
           position: Tween<Offset>(
@@ -82,13 +74,11 @@ class AnimatedPageTransition extends PageRouteBuilder {
           ).animate(curvedAnimation),
           child: child,
         );
-
       case TransitionType.fade:
         return FadeTransition(
           opacity: curvedAnimation,
           child: child,
         );
-
       case TransitionType.scale:
         return ScaleTransition(
           scale: Tween<double>(
@@ -100,7 +90,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
             child: child,
           ),
         );
-
       case TransitionType.rotation:
         return RotationTransition(
           turns: Tween<double>(
@@ -112,7 +101,6 @@ class AnimatedPageTransition extends PageRouteBuilder {
             child: child,
           ),
         );
-
       case TransitionType.ripple:
         return AnimatedBuilder(
           animation: curvedAnimation,
@@ -130,33 +118,26 @@ class AnimatedPageTransition extends PageRouteBuilder {
     }
   }
 }
-
 class CircleRevealClipper extends CustomClipper<Path> {
   final double fraction;
   final Alignment? centerAlignment;
-
   CircleRevealClipper({
     required this.fraction,
     this.centerAlignment,
   });
-
   @override
   Path getClip(Size size) {
     final center = centerAlignment?.alongSize(size) ?? 
         Offset(size.width / 2, size.height / 2);
     final radius = fraction * size.longestSide;
-    
     return Path()
       ..addOval(Rect.fromCircle(center: center, radius: radius));
   }
-
   @override
   bool shouldReclip(CircleRevealClipper oldClipper) {
     return oldClipper.fraction != fraction;
   }
 }
-
-// Helper extension for easy navigation
 extension AnimatedNavigation on BuildContext {
   Future<T?> pushAnimated<T extends Object?>(
     Widget page, {
@@ -173,7 +154,6 @@ extension AnimatedNavigation on BuildContext {
       ) as Route<T>,
     );
   }
-
   Future<T?> pushReplacementAnimated<T extends Object?, TO extends Object?>(
     Widget page, {
     TransitionType transition = TransitionType.slideUp,

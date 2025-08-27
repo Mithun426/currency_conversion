@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import '../../domain/entities/user.dart';
-
 class UserModel extends User {
   const UserModel({
     required super.uid,
@@ -9,7 +8,6 @@ class UserModel extends User {
     super.photoUrl,
     required super.emailVerified,
   });
-
   factory UserModel.fromFirebaseUser(firebase_auth.User firebaseUser) {
     return UserModel(
       uid: firebaseUser.uid,
@@ -19,7 +17,6 @@ class UserModel extends User {
       emailVerified: firebaseUser.emailVerified,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,
@@ -29,7 +26,6 @@ class UserModel extends User {
       'emailVerified': emailVerified,
     };
   }
-
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       uid: json['uid'] as String,
