@@ -294,6 +294,7 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
         key: ValueKey(state.conversionResult.hashCode),
         result: state.conversionResult,
         currencies: state.currencies.cast<CurrencyModel>(),
+        isUseMockData: _isUseMockData,
       );
     }
     return const SizedBox.shrink(

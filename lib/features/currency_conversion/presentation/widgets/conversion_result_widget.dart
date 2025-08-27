@@ -8,10 +8,12 @@ import '../pages/trend_screen.dart';
 class ConversionResultWidget extends StatefulWidget {
   final ConversionResult? result;
   final List<CurrencyModel> currencies;
+  final bool isUseMockData;
   const ConversionResultWidget({
     super.key,
     this.result,
     required this.currencies,
+    this.isUseMockData = false,
   });
   @override
   State<ConversionResultWidget> createState() => _ConversionResultWidgetState();
@@ -137,17 +139,23 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: isDarkMode 
-                          ? const Color(0xFF4CAF50).withOpacity(0.2)
-                          : Colors.green[100],
+                      color: widget.isUseMockData
+                          ? (isDarkMode 
+                              ? Colors.orange.withOpacity(0.2)
+                              : Colors.orange[100])
+                          : (isDarkMode 
+                              ? const Color(0xFF4CAF50).withOpacity(0.2)
+                              : Colors.green[100]),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      'Live Rate',
+                      widget.isUseMockData ? 'Mock Data' : 'Live Rate',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: isDarkMode ? const Color(0xFF4CAF50) : Colors.green[700],
+                        color: widget.isUseMockData
+                            ? (isDarkMode ? Colors.orange[300] : Colors.orange[700])
+                            : (isDarkMode ? const Color(0xFF4CAF50) : Colors.green[700]),
                       ),
                     ),
                   ),
