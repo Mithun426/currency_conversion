@@ -1,8 +1,8 @@
 # Currency Converter App
 
-A beautiful and feature-rich Flutter currency conversion app built with Clean Architecture, BLoC pattern, and real-time exchange rates. Features stunning animations, elegant dark mode support, and robust error handling.
+A beautiful and feature-rich Flutter currency conversion app built with Clean Architecture, BLoC pattern, and real-time exchange rates. Features stunning animations, elegant dark mode support.
 
-## 🚀 Features
+##  Features
 
 - **Real-time Currency Conversion** with live exchange rates
 - **Mock Mode** for offline development and testing
@@ -14,21 +14,16 @@ A beautiful and feature-rich Flutter currency conversion app built with Clean Ar
 - **BLoC Pattern** for state management
 - **Dependency Injection** with GetIt
 
-## 📋 Prerequisites
+
 
 ### Flutter & Dart Versions
 - **Flutter**: 3.19.0 or higher
 - **Dart**: 3.7.2 or higher
 - **Android**: API level 21+ (Android 5.0+)
-- **iOS**: iOS 12.0+
 
-### Required Tools
-- Flutter SDK
-- Android Studio / VS Code
-- Git
-- Firebase CLI (for Firebase setup)
 
-## 🔧 Setup Steps
+
+##  Setup Steps
 
 ### 1. Clone the Repository
 ```bash
@@ -72,33 +67,20 @@ flutterfire configure
 
 #### 4.1 Get API Credentials
 1. Sign up at [Exchange Rate API](https://api.exchangerate-api.com)
-2. Get your API access key
-3. Note your base URL (usually `https://api.exchangerate-api.com/v4`)
+2. Get  API access key
+3. Note  base URL (usually `https://api.exchangerate-api.com/v4`)
 
 #### 4.2 Configure Environment Variables
 Create a development script or use IDE run configurations:
 
-**Option A: Development Script**
-```bash
-# Copy example script
-cp scripts/dev.example.sh scripts/dev.sh
 
-# Edit scripts/dev.sh with your API credentials
-nano scripts/dev.sh
 
-# Make executable
-chmod +x scripts/dev.sh
-
-# Run the app
-./scripts/dev.sh
-```
-
-**Option B: Direct Command**
-```bash
+*
 flutter run --dart-define=BASE_URL=https://api.exchangerate-api.com/v4 \
            --dart-define=ACCESS_KEY=your_api_key_here \
            --dart-define=ENVIRONMENT=development
 ```
+
 
 **Option C: VS Code Configuration**
 Add to `.vscode/launch.json`:
@@ -112,7 +94,7 @@ Add to `.vscode/launch.json`:
       "type": "dart",
       "toolArgs": [
         "--dart-define=BASE_URL=https://api.exchangerate-api.com/v4",
-        "--dart-define=ACCESS_KEY=your_api_key_here",
+        "--dart-define=ACCESS_KEY=_api_key_here",
         "--dart-define=ENVIRONMENT=development"
       ]
     }
@@ -120,7 +102,7 @@ Add to `.vscode/launch.json`:
 }
 ```
 
-## 🎮 How to Run
+##  How to Run
 
 ### Mock Mode (Offline Development)
 Mock mode allows you to develop and test without an internet connection or API credentials:
@@ -130,13 +112,6 @@ Mock mode allows you to develop and test without an internet connection or API c
 flutter run
 ```
 
-**Mock Mode Features:**
-- ✅ No internet connection required
-- ✅ No API credentials needed
-- ✅ Realistic mock conversion rates
-- ✅ Simulated network delays
-- ✅ Error simulation for testing
-- ✅ Perfect for development and testing
 
 ### Real API Mode (Production)
 Real API mode connects to live exchange rate services:
@@ -163,7 +138,7 @@ The app includes a toggle in the UI to switch between mock and real API modes:
 3. Tap to switch between modes
 4. The app will automatically handle the transition
 
-## 💾 Caching Strategy & TTL
+## Caching Strategy & TTL
 
 ### Caching Implementation
 The app implements a multi-layer caching strategy:
@@ -204,7 +179,7 @@ class CacheConfig {
 }
 ```
 
-## 🛡️ API Failure Handling
+##  API Failure Handling
 
 ### Error Types & Handling
 
@@ -433,7 +408,7 @@ sl.registerLazySingleton<UseCase>(() => UseCase(repository: sl()));
 sl.registerFactory<Bloc>(() => Bloc(useCase: sl()));
 ```
 
-## 🧪 Testing
+##  Testing
 
 ### Running Tests
 ```bash
@@ -476,22 +451,20 @@ flutter build ios --release
 flutter build web --release
 ```
 
-## 🔒 Security
 
 ### API Key Security
-- ✅ Never hardcoded in source code
-- ✅ Use `--dart-define` for environment variables
-- ✅ Different keys for dev/staging/production
-- ✅ Regular key rotation
-- ✅ Secure storage practices
+- Never hardcoded in source code
+-  Use `--dart-define` for environment variables
+-  Different keys for dev/staging/production
+-  Regular key rotation
+- Secure storage practices
 
 ### Data Protection
-- ✅ Local data encryption
-- ✅ Secure network communication (HTTPS)
-- ✅ Input validation and sanitization
-- ✅ Error messages don't expose sensitive data
+- Local data encryption 
+-  Secure network communication (HTTPS)
+- Input validation and sanitization
+- Error messages don't expose sensitive data
 
-## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -499,17 +472,5 @@ flutter build web --release
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the [CONFIG.md](CONFIG.md) for configuration details
-- Review the [SECURITY.md](SECURITY.md) for security guidelines
-
----
-
-**Built with ❤️ using Flutter and Clean Architecture**
