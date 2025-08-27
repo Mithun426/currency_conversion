@@ -474,3 +474,17 @@ flutter build web --release
 
 
 
+
+## Screenshots
+
+<img width="392" height="855" alt="5" src="https://github.com/user-attachments/assets/12e5cdc7-4258-4615-9a3c-38bb14e47f22" />
+<img width="384" height="873" alt="2" src="https://github.com/user-attachments/assets/d6a1df77-1e0d-4278-8c0f-8b51b8197887" />
+<img width="402" height="873" alt="1" src="https://github.com/user-attachments/assets/549eea40-444d-4969-a25e-04d51acb7754" />
+<img width="379" height="818" alt="Screenshot 2025-08-27 at 5 02 15 PM" src="https://github.com/user-attachments/assets/a209804d-142a-4117-a5af-d5089dae3549" />
+
+
+
+
+video url :     https://github.com/user-attachments/assets/a8e90e50-f4a9-44f7-b3ec-7a97b97dcd60
+
+
