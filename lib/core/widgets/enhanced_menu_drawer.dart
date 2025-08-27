@@ -378,24 +378,7 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
   }
   List<Widget> _buildMenuItems(bool isDarkMode) {
     final items = [
-      {
-        'icon': Icons.info_outline_rounded,
-        'title': 'About App',
-        'subtitle': 'Learn more about features',
-        'onTap': () => _showAboutDialog(),
-      },
-      {
-        'icon': Icons.help_outline_rounded,
-        'title': 'Help & Support',
-        'subtitle': 'Get assistance',
-        'onTap': () => Navigator.pop(context),
-      },
-      {
-        'icon': Icons.star_outline_rounded,
-        'title': 'Rate App',
-        'subtitle': 'Share your feedback',
-        'onTap': () => Navigator.pop(context),
-      },
+      // Menu items removed as requested
     ];
     return items.asMap().entries.map((entry) {
       final index = entry.key;
@@ -610,34 +593,6 @@ class _EnhancedMenuDrawerState extends State<EnhancedMenuDrawer>
           ],
         );
       },
-    );
-  }
-  void _showAboutDialog() {
-    Navigator.pop(context); 
-    showAboutDialog(
-      context: context,
-      applicationName: 'Currency Converter',
-      applicationVersion: '1.0.0',
-      applicationIcon: Container(
-        width: 64,
-        height: 64,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: const Icon(
-          Icons.currency_exchange_rounded,
-          size: 40,
-          color: Colors.white,
-        ),
-      ),
-      children: [
-        const Text(
-          'A beautiful and feature-rich currency conversion app with real-time exchange rates, stunning animations, and elegant dark mode support.',
-        ),
-      ],
     );
   }
 } 

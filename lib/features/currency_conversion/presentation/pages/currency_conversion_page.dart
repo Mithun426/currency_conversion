@@ -13,6 +13,7 @@ import '../widgets/api_mode_toggle.dart';
 import '../widgets/conversion_result_widget.dart';
 import '../../../authentication/presentation/bloc/auth_bloc.dart';
 import '../../../authentication/presentation/bloc/auth_event.dart';
+import '../../../authentication/presentation/bloc/auth_state.dart';
 import '../../../authentication/presentation/pages/login_page.dart';
 import '../../data/models/currency_model.dart';
 import '../../../../core/widgets/animated_loading_widget.dart';
@@ -96,13 +97,23 @@ class _CurrencyConversionPageState extends State<CurrencyConversionPage>
     return Scaffold(
       backgroundColor: isDarkMode ? const Color(0xFF0A0E13) : const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: Text(
-          'Currency Converter',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            color: isDarkMode ? const Color(0xFFE3F2FD) : Colors.white,
-          ),
+        title: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, authState) {
+            String titleText = 'User';
+            if (authState is AuthAuthenticated) {
+              final username = authState.user.displayName ?? 
+                             authState.user.email.split('@').first;
+              titleText = 'Hi, $username';
+            }
+            return Text(
+              titleText,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: isDarkMode ? const Color(0xFFE3F2FD) : Colors.white,
+              ),
+            );
+          },
         ),
         backgroundColor: isDarkMode ? const Color(0xFF1A1D23) : const Color(0xFF1976D2),
         foregroundColor: isDarkMode ? const Color(0xFFE3F2FD) : Colors.white,
